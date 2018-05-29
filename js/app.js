@@ -36,8 +36,10 @@ function generateCard(card) {
  initGame();
 
 
- let allCards = document.querySelectorAll('.card');
+ const allCards = document.querySelectorAll('.card');
+ const moves = document.querySelector('.moves');
  let openCards = [];
+ let count = 0
 
  allCards.forEach((card) => {
  	card.addEventListener('click', (e) => {
@@ -45,6 +47,8 @@ function generateCard(card) {
  		if(!card.classList.contains('open', 'show', 'match')) {
 	 		openCards.push(card);
 	 		card.classList.add('open', 'show'); //flips card 
+	 		count += 1;
+	 		moves.textContent = count;
 
 	 		//check for match
 	 		let firstCardType = openCards[0].dataset.card;
