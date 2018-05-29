@@ -12,7 +12,7 @@ const cards = ['fa-diamond', 'fa-diamond',
 							];
 
 function generateCard(card) {
-	return `<li class="card"><i class="fa ${card}"></i></li>`
+	return `<li class="card" data-card="${card}""><i class="fa ${card}"></i></li>`
 }
 
 /*
@@ -22,7 +22,9 @@ function generateCard(card) {
  *   - add each card's HTML to the page
  */
 
+
  function initGame() {
+ 	shuffle(cards);
  	const deck = document.querySelector('.deck');
  	let cardHTML = cards.map((card) => {
  		return generateCard(card);
@@ -39,8 +41,34 @@ function generateCard(card) {
 
  allCards.forEach((card) => {
  	card.addEventListener('click', (e) => {
- 		openCards.push(card);
- 		card.classList.add('open', 'show'); //flips card 
+
+ 		if(!card.classList.contains('open', 'show', 'match')) {
+	 		openCards.push(card);
+	 		card.classList.add('open', 'show'); //flips card 
+
+	 		//check for match
+	 		let firstCardType = openCards[0].dataset.card;
+	 		let sencondCardType = openCards[1].dataset.card;
+
+	 		if(firstCardType === sencondCardType) {
+	 			openCards.forEach((card) => {
+		 			card.classList.add('match');
+		 			card.classList.remove('open', 'show')
+		 			openCards = [];
+	 			});
+	 		}
+
+
+	 		//cards that don't match disappear
+	 		if(openCards.length >= 2 && firstCardType !== sencondCardType) {
+	 			setTimeout(() => {
+	 				openCards.forEach((card) => {
+	 					card.classList.remove('open', 'show');
+	 					openCards = [];
+	 				});
+	 			}, 1000);
+	 		}
+ 		};
  	});
  });
 
