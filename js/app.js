@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-const cards = ['fa-diamond', 'fa-diamond',
+let cards = ['fa-diamond', 'fa-diamond',
 							 'fa-paper-plane', 'fa-paper-plane',
 							 'fa-anchor', 'fa-anchor',
 							 'fa-bolt', 'fa-bolt',
@@ -10,7 +10,8 @@ const cards = ['fa-diamond', 'fa-diamond',
 							 'fa-bicycle', 'fa-bicycle',
 							 'fa-bomb', 'fa-bomb'
 							];
-const cardTotal = 8;
+let cardTotal = 8;
+let moveCount = document.querySelector('.moves');
 
 function generateCard(card) {
 	return `<li class="card" data-card="${card}""><i class="fa ${card}"></i></li>`
@@ -25,6 +26,8 @@ function generateCard(card) {
 
 
  function initGame() {
+ 	moveCount.textContent = 0;
+ 	count = 0
  	const deck = document.querySelector('.deck');
  	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
@@ -37,16 +40,15 @@ function generateCard(card) {
  initGame();
 
  function runGame() {
- 	let allCards = document.querySelectorAll('.card');
-	let moves = document.querySelector('.moves');
 	let openCards = [];
 	let count = 0;
+	let allCards = document.querySelectorAll('.card');
 
  	allCards.forEach((card) => {
  		card.addEventListener('click', (e) => {
 
 	 		count += 1;
-		 	moves.textContent = count;
+		 	moveCount.textContent = count;
 
 	 		if(!card.classList.contains('open', 'show', 'match')) {
 		 		openCards.push(card);
