@@ -10,6 +10,7 @@ const cards = ['fa-diamond', 'fa-diamond',
 							 'fa-bicycle', 'fa-bicycle',
 							 'fa-bomb', 'fa-bomb'
 							];
+const cardTotal = 8;
 
 function generateCard(card) {
 	return `<li class="card" data-card="${card}""><i class="fa ${card}"></i></li>`
@@ -24,57 +25,61 @@ function generateCard(card) {
 
 
  function initGame() {
- 	shuffle(cards);
  	const deck = document.querySelector('.deck');
- 	let cardHTML = cards.map((card) => {
+ 	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
  	});
 
  	deck.innerHTML = cardHTML.join('');
+ 	runGame();
  }
 
  initGame();
 
+ function runGame() {
+ 	let allCards = document.querySelectorAll('.card');
+	let moves = document.querySelector('.moves');
+	let openCards = [];
+	let count = 0;
 
- const allCards = document.querySelectorAll('.card');
- const moves = document.querySelector('.moves');
- let openCards = [];
- let count = 0
+ 	allCards.forEach((card) => {
+ 		card.addEventListener('click', (e) => {
 
- allCards.forEach((card) => {
- 	card.addEventListener('click', (e) => {
-
- 		if(!card.classList.contains('open', 'show', 'match')) {
-	 		openCards.push(card);
-	 		card.classList.add('open', 'show'); //flips card 
 	 		count += 1;
-	 		moves.textContent = count;
+		 	moves.textContent = count;
 
-	 		//check for match
-	 		let firstCardType = openCards[0].dataset.card;
-	 		let sencondCardType = openCards[1].dataset.card;
+	 		if(!card.classList.contains('open', 'show', 'match')) {
+		 		openCards.push(card);
+		 		card.classList.add('open', 'show'); //flips card 
 
-	 		if(firstCardType === sencondCardType) {
-	 			openCards.forEach((card) => {
-		 			card.classList.add('match');
-		 			card.classList.remove('open', 'show')
-		 			openCards = [];
-	 			});
-	 		}
+		 		//check for match
+		 		if(openCards.length >= 2) {
 
+			 		let firstCardType = openCards[0].dataset.card;
+			 		let sencondCardType = openCards[1].dataset.card;
 
-	 		//cards that don't match disappear
-	 		if(openCards.length >= 2 && firstCardType !== sencondCardType) {
-	 			setTimeout(() => {
-	 				openCards.forEach((card) => {
-	 					card.classList.remove('open', 'show');
-	 					openCards = [];
-	 				});
-	 			}, 1000);
-	 		}
- 		};
+			 		//cards match
+			 		if(firstCardType === sencondCardType) {
+			 			openCards.forEach((card) => {
+				 			card.classList.add('match');
+				 			card.classList.remove('open', 'show')
+				 			openCards = [];
+			 			});
+			 		} else {
+
+				 		//cards don't match
+			 			setTimeout(() => {
+			 				openCards.forEach((card) => {
+			 					card.classList.remove('open', 'show');
+			 					openCards = [];
+			 				});
+			 			}, 1000);
+		 			}
+		 		}
+	 		};
+ 		});
  	});
- });
+ };	
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -90,6 +95,12 @@ function shuffle(array) {
 
     return array;
 }
+
+//restart the game
+const refresh = document.querySelector('.restart');
+ refresh.addEventListener('click', () => {
+ 	initGame();
+ });
 
 
 /*
