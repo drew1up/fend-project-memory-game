@@ -11,7 +11,10 @@ let cards = ['fa-diamond', 'fa-diamond',
 							 'fa-bomb', 'fa-bomb'
 							];
 let cardTotal = 8;
+let matches = 0; 
 let moveCount = document.querySelector('.moves');
+let stars = document.querySelector('.stars');
+let rating = stars.innerText;
 
 function generateCard(card) {
 	return `<li class="card" data-card="${card}""><i class="fa ${card}"></i></li>`
@@ -27,7 +30,12 @@ function generateCard(card) {
 
  function initGame() {
  	moveCount.textContent = 0;
- 	count = 0
+ 	count = 0;
+ 	matches = 0;
+ 	stars.innerHTML = 
+ 		`<li><i class="fa fa-star"></i></li>
+		 <li><i class="fa fa-star"></i></li>
+		 <li><i class="fa fa-star"></i></li>`;
  	const deck = document.querySelector('.deck');
  	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
@@ -67,6 +75,19 @@ function generateCard(card) {
 				 			card.classList.remove('open', 'show')
 				 			openCards = [];
 			 			});
+			 				matches += 1;
+			 				if(matches === cardTotal) {
+			 					swal({
+			 						title: 'Congratulations! YOU WON!',
+			 						text: `moves: ${count}`,
+			 						icon: 'success',
+			 						button: 'play again?'
+			 					}).then((confirmed) => {
+			 						if(confirmed) {
+			 							initGame();
+			 						}
+			 					});
+			 				}
 			 		} else {
 
 				 		//cards don't match
@@ -77,10 +98,24 @@ function generateCard(card) {
 			 				});
 			 			}, 1000);
 		 			}
+
+	 		if(count < 26) {
+		 		stars.innerHTML = 
+		 				`<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>`
+		 	} else if(26 <= count <= 40) {
+		 		stars.innerHTML = 
+		 				`<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>`
+		 	} else if(count > 40) {
+		 		stars.innerHTML = 
+		 				`<li><i class="fa fa-star"></i></li>`
+		 	};
 		 		}
 	 		};
  		});
- 	});
+ 	});	
  };	
 
 // Shuffle function from http://stackoverflow.com/a/2450976
