@@ -12,6 +12,7 @@ let cards = ['fa-diamond', 'fa-diamond',
 							];
 let cardTotal = 8;
 let matches = 0; 
+let sec = 0;
 let moveCount = document.querySelector('.moves');
 let stars = document.querySelector('.stars');
 let rating = stars.innerText;
@@ -31,6 +32,7 @@ function generateCard(card) {
  function initGame() {
  	moveCount.textContent = 0;
  	count = 0;
+ 	sec = 0;
  	matches = 0;
  	stars.innerHTML = 
  		`<li><i class="fa fa-star"></i></li>
@@ -40,6 +42,7 @@ function generateCard(card) {
  	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
  	});
+
 
  	deck.innerHTML = cardHTML.join('');
  	runGame();
@@ -76,7 +79,9 @@ function generateCard(card) {
 				 			openCards = [];
 			 			});
 			 				matches += 1;
+			 				//display winning message end of game
 			 				if(matches === cardTotal) {
+			 					clearInterval(timer);
 			 					swal({
 			 						title: 'Congratulations! YOU WON!',
 			 						text: `moves: ${count}`,
@@ -132,6 +137,16 @@ function shuffle(array) {
 
     return array;
 }
+
+//time the game
+function timeOut(val) {
+	return val > 9 ? val : "0" + val;
+};
+
+let timer = setInterval(function() {
+	document.getElementById('time').innerHTML = timeOut(++sec) + "secs";
+}, 1000);
+
 
 //restart the game
 const refresh = document.querySelector('.restart');
