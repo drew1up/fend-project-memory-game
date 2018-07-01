@@ -10,12 +10,17 @@ let cards = ['fa-diamond', 'fa-diamond',
 							 'fa-bicycle', 'fa-bicycle',
 							 'fa-bomb', 'fa-bomb'
 							];
+let count = 0;
 let cardTotal = 8;
+let openCards;
 let matches = 0; 
 let sec = 0;
 let moveCount = document.querySelector('.moves');
 let stars = document.querySelector('.stars');
 let rating = stars.innerText;
+let timer;
+let timeSec = document.getElementById('seconds');
+let timeMin = document.getElementById('minutes');
 
 function generateCard(card) {
 	return `<li class="card" data-card="${card}""><i class="fa ${card}"></i></li>`
@@ -31,13 +36,11 @@ function generateCard(card) {
 
  function initGame() {
  	moveCount.textContent = 0;
+ 	timeSec.textContent = "00";
+ 	timeMin.textContent = "00";
  	count = 0;
  	sec = 0;
  	matches = 0;
- 	stars.innerHTML = 
- 		`<li><i class="fa fa-star"></i></li>
-		 <li><i class="fa fa-star"></i></li>
-		 <li><i class="fa fa-star"></i></li>`;
  	const deck = document.querySelector('.deck');
  	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
@@ -51,12 +54,16 @@ function generateCard(card) {
  initGame();
 
  function runGame() {
-	let openCards = [];
-	let count = 0;
+	openCards = [];
+	count = 0;
 	let allCards = document.querySelectorAll('.card');
 
  	allCards.forEach((card) => {
  		card.addEventListener('click', (e) => {
+
+ 			if(count === 0) {
+ 				startTimer();
+ 			}
 
 	 		count += 1;
 		 	moveCount.textContent = count;
@@ -103,25 +110,11 @@ function generateCard(card) {
 			 				});
 			 			}, 1000);
 		 			}
-
-	 		if(count < 26) {
-		 		stars.innerHTML = 
-		 				`<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`
-		 	} else if(26 <= count <= 40) {
-		 		stars.innerHTML = 
-		 				`<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>`
-		 	} else if(count > 40) {
-		 		stars.innerHTML = 
-		 				`<li><i class="fa fa-star"></i></li>`
-		 	};
 		 		}
 	 		};
  		});
  	});	
- };	
+};	
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -139,18 +132,21 @@ function shuffle(array) {
 }
 
 //time the game
-function timeOut(val) {
-	return val > 9 ? val : "0" + val;
+
+function startTimer() {
+	function timeOut(val) {
+		return val > 9 ? val : "0" + val;
+	};
+	timer = setInterval(function() {
+		timeSec.textContent = timeOut(++sec % 60);
+		timeMin.textContent = timeOut(parseInt(sec / 60, 10));
+	}, 1000);
 };
-
-let timer = setInterval(function() {
-	document.getElementById('time').innerHTML = timeOut(++sec) + "secs";
-}, 1000);
-
 
 //restart the game
 const refresh = document.querySelector('.restart');
- refresh.addEventListener('click', () => {
+ refresh.addEventListener('click', (e) => {
+ 	clearInterval(timer);
  	initGame();
  });
 
