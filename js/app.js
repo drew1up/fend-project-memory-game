@@ -16,9 +16,8 @@ let openCards;
 let matches = 0; 
 let sec = 0;
 let moveCount = document.querySelector('.moves');
-let star = '<li><i class="fa fa-star"></i></li>';
+let star = '<i class="fa fa-star"></i>';
 let stars = document.querySelector('.stars');
-let rating = stars.innerText;
 let timer;
 let timeSec = document.getElementById('seconds');
 let timeMin = document.getElementById('minutes');
@@ -93,9 +92,11 @@ function generateCard(card) {
 			 				//display winning message end of game
 			 				if(matches === cardTotal) {
 			 					clearInterval(timer);
+			 					var myhtml = document.createElement('div');
+			 					myhtml.innerHTML = `moves: ${count}, time: ${timeMin.textContent}:${timeSec.textContent}, rating: ${stars.innerHTML}`;
 			 					swal({
 			 						title: 'Congratulations! YOU WON!',
-			 						text: `moves: ${count}`,
+			 						content: myhtml,
 			 						icon: 'success',
 			 						button: 'play again?'
 			 					}).then((confirmed) => {
