@@ -16,6 +16,7 @@ let openCards;
 let matches = 0; 
 let sec = 0;
 let moveCount = document.querySelector('.moves');
+let star = '<li><i class="fa fa-star"></i></li>';
 let stars = document.querySelector('.stars');
 let rating = stars.innerText;
 let timer;
@@ -41,6 +42,7 @@ function generateCard(card) {
  	count = 0;
  	sec = 0;
  	matches = 0;
+ 	stars.innerHTML = star.concat(star + star);
  	const deck = document.querySelector('.deck');
  	let cardHTML = shuffle(cards).map((card) => {
  		return generateCard(card);
@@ -67,6 +69,8 @@ function generateCard(card) {
 
 	 		count += 1;
 		 	moveCount.textContent = count;
+
+		 	gameRating();
 
 	 		if(!card.classList.contains('open', 'show', 'match')) {
 		 		openCards.push(card);
@@ -141,6 +145,18 @@ function startTimer() {
 		timeSec.textContent = timeOut(++sec % 60);
 		timeMin.textContent = timeOut(parseInt(sec / 60, 10));
 	}, 1000);
+};
+
+//user rating
+
+function gameRating() {
+	if(count <= 40) {
+		stars.innerHTML = star.concat(star + star);
+	} else if(count > 40 && count <= 56) {
+		stars.innerHTML = star.concat(star);
+	} else {
+		stars.innerHTML = star;
+	};
 };
 
 //restart the game
