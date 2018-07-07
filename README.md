@@ -2,19 +2,16 @@
 
 ## Table of Contents
 
+* [Dependencies](#dependencies)
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+
+## Dependencies
+
+[sweetalert.js](https://sweetalert.js.org/guides/#installation)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+To start the game, click any card to flip and reveal its icon. Flip any additional card to try to find its match. Find all the matches 
+using the least amount of 'moves' (clicks) to achieve a three-star rating! GOOD LUCK!!
 
-To get started, open `js/app.js` and start building out the app's functionality
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
