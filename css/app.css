@@ -71,6 +71,7 @@ h1 {
     transform: rotateY(360deg);
     background: #02b3e4;
     cursor: default;
+    pointer-events: none;
 }
 
 .deck .card.show {
@@ -83,6 +84,7 @@ h1 {
     font-size: 33px;
     animation-name: score;
     animation-duration: 0.3s;
+    pointer-events: none;
 }
 
 /*

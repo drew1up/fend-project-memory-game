@@ -1,15 +1,16 @@
 /*
  * Create a list that holds all of your cards
  */
-let cards = ['fa-diamond', 'fa-diamond',
-							 'fa-paper-plane', 'fa-paper-plane',
-							 'fa-anchor', 'fa-anchor',
-							 'fa-bolt', 'fa-bolt',
-							 'fa-cube', 'fa-cube',
-							 'fa-leaf', 'fa-leaf',
-							 'fa-bicycle', 'fa-bicycle',
-							 'fa-bomb', 'fa-bomb'
-							];
+let icons = [  'fa-diamond', 
+							 'fa-paper-plane', 
+							 'fa-anchor', 
+							 'fa-bolt', 
+							 'fa-cube', 
+							 'fa-leaf', 
+							 'fa-bicycle', 
+							 'fa-bomb'
+						];
+let cards = icons.concat(icons);
 let count = 0;
 let cardTotal = 8;
 let openCards;
@@ -81,6 +82,7 @@ function generateCard(card) {
 			 		let firstCardType = openCards[0].dataset.card;
 			 		let sencondCardType = openCards[1].dataset.card;
 
+
 			 		//cards match
 			 		if(firstCardType === sencondCardType) {
 			 			openCards.forEach((card) => {
@@ -93,7 +95,8 @@ function generateCard(card) {
 			 				if(matches === cardTotal) {
 			 					clearInterval(timer);
 			 					var myhtml = document.createElement('div');
-			 					myhtml.innerHTML = `moves: ${count}, time: ${timeMin.textContent}:${timeSec.textContent}, rating: ${stars.innerHTML}`;
+			 					myhtml.innerHTML = `moves: ${count}, time: ${timeMin.textContent}:${timeSec.textContent}, 
+			 															rating: ${stars.innerHTML}`;
 			 					swal({
 			 						title: 'Congratulations! YOU WON!',
 			 						content: myhtml,
